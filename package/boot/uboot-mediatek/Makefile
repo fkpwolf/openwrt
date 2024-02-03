@@ -160,6 +160,18 @@ define U-Boot/mt7622_ubnt_unifi-6-lr-v3
   FIP_COMPRESS:=1
 endef
 
+define U-Boot/mt7622_tplink_tl-xdr3250
+  NAME:=TP-LINK TL-XDR3250
+  BUILD_DEVICES:=tplink_tl-xdr3250
+  UBOOT_CONFIG:=mt7622_tplink_tl-xdr3250
+  BUILD_SUBTARGET:=mt7622
+  UBOOT_IMAGE:=u-boot.fip
+  BL2_BOOTDEV:=nor
+  BL2_DDRBLOB:=1
+  DEPENDS:=+trusted-firmware-a-mt7622-nor-1ddr
+  FIP_COMPRESS:=1
+endef
+
 define U-Boot/mt7623a_unielec_u7623
   NAME:=UniElec U7623 (mt7623)
   BUILD_DEVICES:=unielec_u7623-02
@@ -503,6 +515,7 @@ UBOOT_TARGETS := \
 	mt7622_ubnt_unifi-6-lr-v1 \
 	mt7622_ubnt_unifi-6-lr-v2 \
 	mt7622_ubnt_unifi-6-lr-v3 \
+  mt7622_tplink_tl-xdr3250 \
 	mt7623n_bpir2 \
 	mt7623a_unielec_u7623 \
 	mt7628_rfb \

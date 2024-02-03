@@ -392,3 +392,19 @@ define Device/xiaomi_redmi-router-ax6s
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
 endef
 TARGET_DEVICES += xiaomi_redmi-router-ax6s
+
+
+define Device/tplink_tl-xdr3250
+  DEVICE_VENDOR := TP-Link
+  DEVICE_MODEL := TL-XDR3250
+  DEVICE_VARIANT := v1
+  DEVICE_DTS_CONFIG := config@1
+  DEVICE_DTS := mt7622-tplink-tl-xdr3250
+  DEVICE_DTS_DIR := ../dts
+  DEVICE_PACKAGES := kmod-mt7915-firmware
+  SUPPORTED_DEVICES += tplink,tl-xdr3250
+  ARTIFACTS := preloader.bin bl31-uboot.fip
+  ARTIFACT/preloader.bin := bl2 nor-1ddr
+  ARTIFACT/bl31-uboot.fip := bl31-uboot tplink_tl-xdr3250
+endef
+TARGET_DEVICES += tplink_tl-xdr3250
