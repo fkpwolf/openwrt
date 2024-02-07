@@ -37,7 +37,7 @@
 +CONFIG_FIT_ENABLE_SHA256_SUPPORT=y
 +CONFIG_LOGLEVEL=7
 +CONFIG_LOG=y
-+CONFIG_DEFAULT_FDT_FILE="mediatek/mt7622_tplink_tl-xdr3250.dtb"
++CONFIG_DEFAULT_FDT_FILE="mt7622_tplink_tl-xdr3250"
 +CONFIG_SYS_PROMPT="MT7622> "
 +# CONFIG_LEGACY_IMAGE_FORMAT is not set
 +# CONFIG_BOOTM_PLAN9 is not set
@@ -150,7 +150,7 @@
 +CONFIG_SERVERIP="192.168.1.254"
 --- /dev/null
 +++ b/arch/arm/dts/mt7622_tplink_tl-xdr3250.dts
-@@ -0,0 +1,194 @@
+@@ -0,0 +1,188 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Copyright (c) 2019 MediaTek Inc.
@@ -222,6 +222,13 @@
 +		regulator-max-microvolt = <5000000>;
 +		regulator-boot-on;
 +		regulator-always-on;
++	};
++	rtl8367 {
++		compatible = "realtek,rtl8367b";
++		cpu_port = <5>;
++		mii-bus = <&mdio0>; 
++		 
++		realtek,extif0 = <1 0 1 1 1 1 1 1 2>;
 +	};
 +};
 +
@@ -297,7 +304,7 @@
 +&snor {
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&snor_pins>;
-+	status = "okay";
++	status = "okay";	 
 +
 +	spi-flash@0 {
 +		compatible = "winbond,w25q128", "jedec,spi-nor";
@@ -305,7 +312,7 @@
 +		reg = <0>;
 +		spi-tx-bus-width = <1>;
 +		spi-rx-bus-width = <4>;
-+		u-boot,dm-pre-reloc;
++		u-boot,dm-pre-reloc;		 
 +	};
 +};
 +
@@ -322,27 +329,14 @@
 +
 +&eth {
 +	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&eth_pins>;
-+
 +	mediatek,gmac-id = <0>;
 +	phy-mode = "2500base-x";
-+	phy-handle = <&gphy>;
++	realtek,switch = "rtl8367";
++	reset-gpios = <&gpio 54 GPIO_ACTIVE_HIGH>;
 +
 +	fixed-link {
 +		speed = <2500>;
 +		full-duplex;
-+	};
-+
-+	mdio-bus {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		gphy: ethernet-phy@8 {
-+			/* Marvell AQRate AQR112W - no driver */
-+			compatible = "ethernet-phy-ieee802.3-c45";
-+			reg = <0x8>;
-+		};
 +	};
 +};
 --- a/arch/arm/dts/Makefile
@@ -364,10 +358,10 @@
 +loadaddr=0x48000000
 +bootcmd=if pstore check ; then run boot_recovery ; else run boot_nor ; fi
 +bootdelay=0
-+bootfile=openwrt-mediatek-mt7622-ubnt_unifi-6-lr-v1-ubootmod-initramfs-recovery.itb
-+bootfile_bl2=openwrt-mediatek-mt7622-ubnt_unifi-6-lr-v1-ubootmod-preloader.bin
-+bootfile_fip=openwrt-mediatek-mt7622-ubnt_unifi-6-lr-v1-ubootmod-bl31-uboot.fip
-+bootfile_upg=openwrt-mediatek-mt7622-ubnt_unifi-6-lr-v1-ubootmod-squashfs-sysupgrade.itb
++bootfile=openwrt-mediatek-mt7622-tplink_tl-xdr3250-ubootmod-initramfs-recovery.itb
++bootfile_bl2=openwrt-mediatek-mt7622-tplink_tl-xdr3250-ubootmod-preloader.bin
++bootfile_fip=openwrt-mediatek-mt7622-tplink_tl-xdr3250-ubootmod-bl31-uboot.fip
++bootfile_upg=openwrt-mediatek-mt7622-tplink_tl-xdr3250-ubootmod-squashfs-sysupgrade.itb
 +bootmenu_confirm_return=askenv - Press ENTER to return to menu ; bootmenu 60
 +bootmenu_default=0
 +bootmenu_delay=0
