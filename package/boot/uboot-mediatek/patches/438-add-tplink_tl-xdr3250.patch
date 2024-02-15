@@ -331,8 +331,8 @@
 +	status = "okay";
 +	mediatek,gmac-id = <0>;
 +	phy-mode = "2500base-x";
-+	 
-+	reset-gpios = <&gpio 54 GPIO_ACTIVE_HIGH>;
++	
++	reset-gpios = <&gpio 5 GPIO_ACTIVE_HIGH>;
 +
 +	fixed-link {
 +		speed = <2500>;
