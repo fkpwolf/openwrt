@@ -150,7 +150,7 @@
 +CONFIG_SERVERIP="192.168.1.254"
 --- /dev/null
 +++ b/arch/arm/dts/mt7622_tplink_tl-xdr3250.dts
-@@ -0,0 +1,188 @@
+@@ -0,0 +1,196 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Copyright (c) 2019 MediaTek Inc.
@@ -225,13 +225,21 @@
 +	};
 +	rtl8367 {
 +		compatible = "realtek,rtl8367";
-+		gpio-sda = <&gpio 1 GPIO_ACTIVE_HIGH>;
-+		gpio-sck = <&gpio 6 GPIO_ACTIVE_HIGH>;
-+		 
++		gpio-sda = <&gpio 24 GPIO_ACTIVE_HIGH>;
++		gpio-sck = <&gpio 23 GPIO_ACTIVE_HIGH>;
 +		realtek,extif0 = <1 0 1 1 1 1 1 1 2>;
++
++		mdio-bus {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			status = "okay";
++	
++			phy0: ethernet-phy@0 {
++				reg = <0>;
++			};
++		};
 +	};
 +};
-+
 +&pcie {
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&pcie0_pins>, <&pcie1_pins>;
@@ -333,7 +341,7 @@
 +	phy-mode = "2500base-x";
 +	
 +	reset-gpios = <&gpio 5 GPIO_ACTIVE_HIGH>;
-+
++	phy-handle = <&phy0>;
 +	fixed-link {
 +		speed = <2500>;
 +		full-duplex;
