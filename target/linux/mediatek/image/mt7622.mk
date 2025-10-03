@@ -362,6 +362,23 @@ define Device/totolink_a8000ru
 endef
 TARGET_DEVICES += totolink_a8000ru
 
+define Device/tplink_tl-xdr3250
+  DEVICE_VENDOR := TP-Link
+  DEVICE_MODEL := TL-XDR3250
+  DEVICE_DTS := mt7622-tplink-tl-xdr3250
+  DEVICE_DTS_DIR := ../dts
+  DEVICE_PACKAGES := kmod-mt7915-firmware kmod-switch-rtl8367b
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  KERNEL_SIZE := 4096k
+  IMAGE_SIZE := 32768k
+  IMAGES += factory.bin
+  IMAGE/factory.bin := append-kernel | pad-to $$(KERNEL_SIZE) | append-ubi | check-size
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += tplink_tl-xdr3250
+
 define Device/ubnt_unifi-6-lr-v1
   DEVICE_VENDOR := Ubiquiti
   DEVICE_MODEL := UniFi U6 Long-Range
