@@ -1,0 +1,317 @@
+--- /dev/null
++++ b/configs/mt7622_tplink_tl-xdr3250_defconfig
+@@ -0,0 +1,111 @@
++CONFIG_ARM=y
++CONFIG_SYS_HAS_NONCACHED_MEMORY=y
++CONFIG_POSITION_INDEPENDENT=y
++CONFIG_ARCH_MEDIATEK=y
++CONFIG_TEXT_BASE=0x41e00000
++CONFIG_SYS_MALLOC_F_LEN=0x4000
++CONFIG_NR_DRAM_BANKS=1
++CONFIG_DEFAULT_DEVICE_TREE="mt7622-tplink-tl-xdr3250"
++CONFIG_SYS_LOAD_ADDR=0x40080000
++CONFIG_PRE_CON_BUF_ADDR=0x4007EF00
++CONFIG_DEBUG_UART_BASE=0x11002000
++CONFIG_DEBUG_UART_CLOCK=25000000
++CONFIG_PCI=y
++CONFIG_DEBUG_UART=y
++CONFIG_FIT=y
++CONFIG_BOOTDELAY=30
++CONFIG_AUTOBOOT_KEYED=y
++CONFIG_AUTOBOOT_MENU_SHOW=y
++CONFIG_DEFAULT_FDT_FILE="mt7622-tplink-tl-xdr3250"
++CONFIG_LOGLEVEL=7
++CONFIG_PRE_CONSOLE_BUFFER=y
++CONFIG_LOG=y
++CONFIG_BOARD_LATE_INIT=y
++CONFIG_HUSH_PARSER=y
++CONFIG_SYS_PROMPT="MT7622> "
++CONFIG_CMD_LICENSE=y
++# CONFIG_CMD_BOOTEFI_BOOTMGR is not set
++CONFIG_CMD_BOOTMENU=y
++CONFIG_CMD_ASKENV=y
++CONFIG_CMD_ERASEENV=y
++CONFIG_CMD_ENV_FLAGS=y
++CONFIG_CMD_GPIO=y
++CONFIG_CMD_GPT=y
++CONFIG_CMD_MTD=y
++CONFIG_CMD_PART=y
++CONFIG_CMD_PCI=y
++CONFIG_CMD_USB=y
++CONFIG_CMD_TFTPSRV=y
++CONFIG_CMD_RARP=y
++CONFIG_CMD_CDP=y
++CONFIG_CMD_SNTP=y
++CONFIG_CMD_LINK_LOCAL=y
++CONFIG_CMD_DHCP=y
++CONFIG_CMD_DNS=y
++CONFIG_CMD_PING=y
++CONFIG_CMD_PXE=y
++CONFIG_CMD_PSTORE=y
++CONFIG_CMD_PSTORE_MEM_ADDR=0x42ff0000
++CONFIG_CMD_UUID=y
++CONFIG_CMD_HASH=y
++CONFIG_CMD_SMC=y
++CONFIG_CMD_EXT4=y
++CONFIG_CMD_FAT=y
++CONFIG_CMD_FS_GENERIC=y
++CONFIG_CMD_FS_UUID=y
++CONFIG_CMD_MTDPARTS=y
++CONFIG_CMD_UBI=y
++CONFIG_CMD_UBI_RENAME=y
++CONFIG_ENV_OVERWRITE=y
++CONFIG_ENV_IS_IN_UBI=y
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
++CONFIG_ENV_UBI_PART="ubi"
++CONFIG_ENV_UBI_VOLUME="ubootenv"
++CONFIG_ENV_UBI_VOLUME_REDUND="ubootenv2"
++CONFIG_SYS_RELOC_GD_ENV_ADDR=y
++CONFIG_USE_DEFAULT_ENV_FILE=y
++CONFIG_DEFAULT_ENV_FILE="defenvs/tplink_tl-xdr3250_env"
++CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG=y
++CONFIG_VERSION_VARIABLE=y
++CONFIG_BOOTP_SEND_HOSTNAME=y
++CONFIG_NETCONSOLE=y
++CONFIG_USE_IPADDR=y
++CONFIG_IPADDR="192.168.1.1"
++CONFIG_USE_SERVERIP=y
++CONFIG_SERVERIP="192.168.1.254"
++CONFIG_NET_RANDOM_ETHADDR=y
++CONFIG_BUTTON=y
++CONFIG_BUTTON_GPIO=y
++CONFIG_CLK=y
++CONFIG_GPIO_HOG=y
++CONFIG_LED=y
++CONFIG_LED_BLINK=y
++CONFIG_LED_GPIO=y
++CONFIG_MTD=y
++CONFIG_DM_MTD=y
++CONFIG_MTK_SPI_NAND=y
++CONFIG_MTK_SPI_NAND_MTD=y
++CONFIG_MTD_UBI_FASTMAP=y
++CONFIG_PHY_FIXED=y
++CONFIG_MEDIATEK_ETH=y
++CONFIG_PCIE_MEDIATEK=y
++CONFIG_PHY=y
++CONFIG_PHY_MTK_TPHY=y
++CONFIG_PINCTRL=y
++CONFIG_PINCONF=y
++CONFIG_PINCTRL_MT7622=y
++CONFIG_POWER_DOMAIN=y
++CONFIG_MTK_POWER_DOMAIN=y
++CONFIG_DM_REGULATOR=y
++CONFIG_DM_REGULATOR_FIXED=y
++CONFIG_DM_REGULATOR_GPIO=y
++CONFIG_RAM=y
++CONFIG_DM_SERIAL=y
++CONFIG_SERIAL_RX_BUFFER=y
++CONFIG_MTK_SERIAL=y
++CONFIG_SPI=y
++CONFIG_DM_SPI=y
++CONFIG_USB=y
++CONFIG_USB_XHCI_HCD=y
++CONFIG_USB_XHCI_MTK=y
++CONFIG_USB_STORAGE=y
++CONFIG_ZSTD=y
++CONFIG_HEXDUMP=y
+--- /dev/null
++++ b/arch/arm/dts/mt7622-tplink-tl-xdr3250.dts
+@@ -0,0 +1,186 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Copyright (C) 2025 OpenWrt.org
++ */
++
++/dts-v1/;
++#include "mt7622.dtsi"
++#include "mt7622-u-boot.dtsi"
++
++/ {
++	#address-cells = <1>;
++	#size-cells = <1>;
++	model = "TP-Link TL-XDR3250";
++	compatible = "tplink,tl-xdr3250", "mediatek,mt7622";
++
++	chosen {
++		stdout-path = &uart0;
++		tick-timer = &timer0;
++	};
++
++	memory@40000000 {
++		device_type = "memory";
++		reg = <0x40000000 0x0f000000>;
++	};
++
++	reg_1p8v: regulator-1p8v {
++		compatible = "regulator-fixed";
++		regulator-name = "fixed-1.8V";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
++	reg_3p3v: regulator-3p3v {
++		compatible = "regulator-fixed";
++		regulator-name = "fixed-3.3V";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
++	reg_5v: regulator-5v {
++		compatible = "regulator-fixed";
++		regulator-name = "fixed-5V";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++};
++
++&eth {
++	status = "okay";
++	mediatek,gmac-id = <0>;
++	phy-mode = "rgmii";
++	mediatek,switch = "none";
++
++	fixed-link {
++		speed = <1000>;
++		full-duplex;
++	};
++};
++
++&pcie {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pcie0_pins>, <&pcie1_pins>;
++	status = "okay";
++
++	pcie@0,0 {
++		status = "okay";
++	};
++
++	pcie@1,0 {
++		status = "okay";
++	};
++};
++
++&pinctrl {
++	pcie0_pins: pcie0-pins {
++		mux {
++			function = "pcie";
++			groups = "pcie0_pad_perst",
++				 "pcie0_1_waken",
++				 "pcie0_1_clkreq";
++		};
++	};
++
++	pcie1_pins: pcie1-pins {
++		mux {
++			function = "pcie";
++			groups = "pcie1_pad_perst",
++				 "pcie1_0_waken",
++				 "pcie1_0_clkreq";
++		};
++	};
++
++	snfi_pins: snfi-pins {
++		mux {
++			function = "flash";
++			groups = "snfi";
++		};
++	};
++
++	uart0_pins: uart0-pins {
++		mux {
++			function = "uart";
++			groups = "uart0_0_tx_rx";
++		};
++	};
++
++	watchdog_pins: watchdog-pins {
++		mux {
++			function = "watchdog";
++			groups = "watchdog";
++		};
++	};
++};
++
++&snfi {
++	pinctrl-names = "default";
++	pinctrl-0 = <&snfi_pins>;
++	status = "okay";
++	quad-spi;
++
++	spi-flash@0 {
++		compatible = "spi-nand";
++		reg = <0>;
++		spi-tx-bus-width = <4>;
++		spi-rx-bus-width = <4>;
++		spi-max-frequency = <104000000>;
++	};
++};
++
++&ssusb {
++	vusb33-supply = <&reg_3p3v>;
++	vbus-supply = <&reg_5v>;
++	status = "okay";
++};
++
++&u3phy {
++	status = "okay";
++};
++
++&uart0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart0_pins>;
++	status = "okay";
++};
++
++&watchdog {
++	pinctrl-names = "default";
++	pinctrl-0 = <&watchdog_pins>;
++	status = "okay";
++};
+--- a/arch/arm/dts/Makefile
++++ b/arch/arm/dts/Makefile
+@@ -1117,6 +1117,7 @@ dtb-$(CONFIG_ARCH_MEDIATEK) += \
+ 	mt7622-rfb.dtb \
+ 	mt7623a-unielec-u7623-02-emmc.dtb \
+ 	mt7622-bananapi-bpi-r64.dtb \
++	mt7622-tplink-tl-xdr3250.dtb \
+ 	mt7622-linksys-e8450-ubi.dtb \
+ 	mt7623n-bananapi-bpi-r2.dtb \
+ 	mt7981-rfb.dtb \
+--- /dev/null
++++ b/defenvs/tplink_tl-xdr3250_env
+@@ -0,0 +1,50 @@
++ethaddr_factory=mtd read factory 0x40080000 0x4 0x6 && env readmem -b ethaddr 0x40080000 0x6 ; setenv ethaddr_factory
++_init_env=setenv _init_env ; run _switch_to_menu ; setenv _firstboot
++_firstboot=setenv _firstboot ; run ethaddr_factory ; run _switch_to_menu ; run _init_env ; run boot_first
++_switch_to_menu=setenv _switch_to_menu ; setenv bootdelay 3 ; setenv bootmenu_delay 3 ; setenv bootmenu_0 $bootmenu_0d ; setenv bootmenu_0d ; run _bootmenu_update_title
++_bootmenu_update_title=setenv _bootmenu_update_title ; setenv bootmenu_title "$bootmenu_title       \e[33m\"$ver\"\e[0m"
++boot_first=setenv bootargs "console=ttyS0,115200n1 loglevel=8 earlycon=uart8250,mmio32,0x11002000 root=ubi0:ubi_rootfs ro rootfstype=squashfs ubi.mtd=ubi" ; if printenv bootconf ; then run boot_conf ; else run boot_ubi ; fi
++boot_ubi=if ubi part ubi ; then ubifsmount ubi:ubi_rootfs ; if ubifsload $loadaddr fit.itb ; then bootm $loadaddr#$bootconf ; fi ; fi ; run bootcmd_rescue
++boot_conf=if ubi part ubi ; then ubifsmount ubi:ubi_rootfs ; if ubifsload $loadaddr fit.itb ; then bootm $loadaddr#$bootconf ; fi ; fi ; run bootcmd_rescue
++bootcmd_rescue=if button reset ; then run bootmenu_confirm_return ; run bootcmd_ubi_recovery ; else run boot_ubi ; fi
++bootcmd_ubi_recovery=if button reset ; then echo Found issue, performing recovery! ; run bootcmd_factory ; fi
++bootcmd_factory=echo Booting recovery system from factory partition... ; if ubi part ubi ; then ubifsmount ubi:ubi_rootfs ; if ubifsload $loadaddr fit.itb ; then bootm $loadaddr#$bootconf ; fi ; fi ; echo Recovery failed, drop to U-Boot shell...
++bootmenu_confirm_return=askenv confirm "Press ENTER to return to menu" ; echo
++bootmenu_title=       \e[0;34m( ( ( \e[1;39mOpenWrt\e[0;34m ) ) )\e[0m
++bootmenu_0=Boot system via TFTP.=run boot_tftp ; run bootcmd
++bootmenu_0d=Boot system via TFTP.=run boot_tftp ; run bootcmd
++bootmenu_1=Boot production system from flash.=run boot_ubi ; run bootcmd
++bootmenu_2=Boot recovery system from flash.=run bootcmd_ubi_recovery
++bootmenu_3=Load production system via TFTP then write to flash.=setenv noboot 1 ; run boot_tftp_production ; setenv noboot 0 ; run bootcmd
++bootmenu_4=Load recovery system via TFTP then write to flash.=setenv noboot 1 ; run boot_tftp_recovery ; setenv noboot 0 ; run bootcmd
++bootmenu_5=Reboot.=reset
++bootmenu_6=Reset all settings to factory defaults.=run reset_factory ; reset
++bootmenu_7=Power off.=poweroff
++boot_tftp=setenv bootfile openwrt-mediatek-mt7622-tplink_tl-xdr3250-initramfs-recovery.itb ; setenv loadaddr 0x40080000 ; tftpboot $loadaddr $serverip:$bootfile && bootm $loadaddr
++boot_tftp_production=setenv bootfile openwrt-mediatek-mt7622-tplink_tl-xdr3250-squashfs-sysupgrade.itb ; setenv loadaddr 0x40080000 ; tftpboot $loadaddr $serverip:$bootfile ; run ubi_format ; ubi part ubi ; ubi create fit 0x800000 ; ubi write $loadaddr fit $filesize ; ubi create ubootenv 0x100000 ; ubi create ubootenv2 0x100000 ; echo Successfully installed production system
++boot_tftp_recovery=setenv bootfile openwrt-mediatek-mt7622-tplink_tl-xdr3250-initramfs-recovery.itb ; setenv loadaddr 0x40080000 ; tftpboot $loadaddr $serverip:$bootfile ; run ubi_format ; ubi part ubi ; ubi create recovery 0x2800000 ; ubi write $loadaddr recovery $filesize ; echo Successfully installed recovery system
++ubi_format=ubi detach ; mtd erase ubi && ubi part ubi
++ubi_prepare=ubi detach ; if ubi part ubi ; then else run ubi_format ; ubi part ubi ; fi
++reset_factory=ubi detach ; mtd erase ubi
++ver=2025.07
