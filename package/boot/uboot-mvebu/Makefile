@@ -36,6 +36,13 @@ define U-Boot/clearfog
   UBOOT_IMAGE:=u-boot-with-spl.kwb
 endef
 
+define U-Boot/clearfog-gt-8k
+  NAME:=SolidRun ClearFog GT-8K
+  BUILD_SUBTARGET:=cortexa72
+  BUILD_DEVICES:=marvell_clearfog-gt-8k
+  UBOOT_IMAGE:=u-boot.elf
+endef
+
 define U-Boot/helios4
   NAME:=Kobol Helios 4
   BUILD_DEVICES:=kobol_helios4
@@ -85,6 +92,7 @@ endef
 UBOOT_TARGETS:= \
 	mox \
 	clearfog \
+	clearfog-gt-8k \
 	helios4 \
 	omnia \
 	espressobin \
