@@ -40,6 +40,7 @@ define U-Boot/clearfog-gt-8k
   NAME:=SolidRun ClearFog GT-8K
   BUILD_SUBTARGET:=cortexa72
   BUILD_DEVICES:=marvell_clearfog-gt-8k
+  UBOOT_CONFIG:=clearfog_gt_8k
   UBOOT_IMAGE:=u-boot.elf
 endef
 
